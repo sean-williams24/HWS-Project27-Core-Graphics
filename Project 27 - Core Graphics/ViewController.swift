@@ -17,13 +17,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        drawDisbeliefEmoji()
+        drawTwin()
     }
-
+    
     @IBAction func redrawTapped(_ sender: Any) {
         currentDrawType += 1
         
-        if currentDrawType > 7 {
+        if currentDrawType > 8 {
             currentDrawType = 0
         }
         
@@ -52,6 +52,9 @@ class ViewController: UIViewController {
         case 7:
             drawDisbeliefEmoji()
             
+        case 8:
+            drawTwin()
+            
         default:
             break
         }
@@ -68,7 +71,7 @@ class ViewController: UIViewController {
             ctx.cgContext.setLineWidth(10)
             ctx.cgContext.addEllipse(in: rectangle)
             ctx.cgContext.drawPath(using: .fillStroke)
-
+            
             let leftEye = CGRect(x: 128, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
             
             ctx.cgContext.setFillColor(UIColor.black.cgColor)
@@ -100,30 +103,30 @@ class ViewController: UIViewController {
         
         let img = renderer.image { ctx in
             let rectangle = CGRect(x: 0, y: 0, width: 512, height: 512).insetBy(dx: 5, dy: 5)
-
+            
             ctx.cgContext.setFillColor(UIColor.yellow.cgColor)
             ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
             ctx.cgContext.setLineWidth(10)
             ctx.cgContext.addEllipse(in: rectangle)
             ctx.cgContext.drawPath(using: .fillStroke)
-
-
+            
+            
             let leftEye = CGRect(x: 128, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
-
+            
             ctx.cgContext.setFillColor(UIColor.black.cgColor)
             ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
             ctx.cgContext.setLineWidth(10)
             ctx.cgContext.addEllipse(in: leftEye)
-
+            
             let rightEye = CGRect(x: 288, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
-
+            
             ctx.cgContext.setFillColor(UIColor.black.cgColor)
             ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
             ctx.cgContext.setLineWidth(10)
             ctx.cgContext.addEllipse(in: rightEye)
-
+            
             ctx.cgContext.drawPath(using: .fillStroke)
-
+            
             
             ctx.cgContext.move(to: CGPoint(x: 100, y: 370))
             ctx.cgContext.addLine(to: CGPoint(x: 400, y: 370))
@@ -201,6 +204,38 @@ class ViewController: UIViewController {
                 ctx.cgContext.rotate(by: CGFloat(amount))
                 ctx.cgContext.addRect(CGRect(x: -128, y: -128, width: 256, height: 256))
             }
+            
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+        }
+        imageView.image = img
+    }
+    
+    fileprivate func drawLetterLine(_ ctx: UIGraphicsImageRendererContext,moveX: Int, moveY: Int, drawX: Int, drawY: Int) {
+        ctx.cgContext.move(to: CGPoint(x: moveX, y: moveY))
+        ctx.cgContext.addLine(to: CGPoint(x: drawX, y: drawY))
+    }
+    
+    func drawTwin() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            let top = 5
+            let bottom = 507
+            ctx.cgContext.setLineWidth(5)
+
+            drawLetterLine(ctx, moveX: 0, moveY: top, drawX: 100, drawY: top)
+            drawLetterLine(ctx, moveX: 50, moveY: top, drawX: 50, drawY: bottom)
+            drawLetterLine(ctx, moveX: 110, moveY: top, drawX: 135, drawY: bottom)
+            drawLetterLine(ctx, moveX: 135, moveY: bottom, drawX: 160, drawY: top)
+            drawLetterLine(ctx, moveX: 160, moveY: top, drawX: 185, drawY: bottom)
+            drawLetterLine(ctx, moveX: 185, moveY: bottom, drawX: 210, drawY: top)
+            drawLetterLine(ctx, moveX: 220, moveY: top, drawX: 320, drawY: top)
+            drawLetterLine(ctx, moveX: 270, moveY: top, drawX: 270, drawY: bottom)
+            drawLetterLine(ctx, moveX: 220, moveY: bottom, drawX: 320, drawY: bottom)
+            drawLetterLine(ctx, moveX: 330, moveY: bottom, drawX: 330, drawY: top)
+            drawLetterLine(ctx, moveX: 330, moveY: top, drawX: 430, drawY: bottom)
+            drawLetterLine(ctx, moveX: 430, moveY: bottom, drawX: 430, drawY: top)
             
             ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
             ctx.cgContext.strokePath()
