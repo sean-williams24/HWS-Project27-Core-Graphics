@@ -17,19 +17,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        drawRectangle()
+        drawDisbeliefEmoji()
     }
 
     @IBAction func redrawTapped(_ sender: Any) {
         currentDrawType += 1
         
-        if currentDrawType > 5 {
+        if currentDrawType > 7 {
             currentDrawType = 0
         }
         
         switch currentDrawType {
         case 0:
-            drawRectangle()
+            drawShockedEmoji()
             
         case 1:
             drawCircle()
@@ -45,9 +45,94 @@ class ViewController: UIViewController {
             
         case 5:
             drawImagesAndText()
+            
+        case 6:
+            drawRectangle()
+            
+        case 7:
+            drawDisbeliefEmoji()
+            
         default:
             break
         }
+    }
+    
+    func drawShockedEmoji() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            let rectangle = CGRect(x: 0, y: 0, width: 512, height: 512).insetBy(dx: 5, dy: 5)
+            
+            ctx.cgContext.setFillColor(UIColor.yellow.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: rectangle)
+            ctx.cgContext.drawPath(using: .fillStroke)
+
+            let leftEye = CGRect(x: 128, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
+            
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: leftEye)
+            
+            let rightEye = CGRect(x: 288, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
+            
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: rightEye)
+            
+            let mouth = CGRect(x: 215, y: 360, width: 90, height: 90).insetBy(dx: 5, dy: 5)
+            
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: mouth)
+            
+            ctx.cgContext.drawPath(using: .fillStroke)
+        }
+        imageView.image = img
+    }
+    
+    func drawDisbeliefEmoji() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            let rectangle = CGRect(x: 0, y: 0, width: 512, height: 512).insetBy(dx: 5, dy: 5)
+
+            ctx.cgContext.setFillColor(UIColor.yellow.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: rectangle)
+            ctx.cgContext.drawPath(using: .fillStroke)
+
+
+            let leftEye = CGRect(x: 128, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
+
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: leftEye)
+
+            let rightEye = CGRect(x: 288, y: 120, width: 80, height: 90).insetBy(dx: 5, dy: 5)
+
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.addEllipse(in: rightEye)
+
+            ctx.cgContext.drawPath(using: .fillStroke)
+
+            
+            ctx.cgContext.move(to: CGPoint(x: 100, y: 370))
+            ctx.cgContext.addLine(to: CGPoint(x: 400, y: 370))
+            ctx.cgContext.setLineWidth(10)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+        }
+        imageView.image = img
     }
     
     
@@ -175,7 +260,7 @@ class ViewController: UIViewController {
             
             //Load an image from the project and draw it to the context.
             let mouse = UIImage(named: "mouse")
-            mouse?.draw(at: CGPoint(x: 300, y: 150))
+            mouse?.draw(at: CGPoint(x: 300, y: 180))
             
         }
         imageView.image = img
